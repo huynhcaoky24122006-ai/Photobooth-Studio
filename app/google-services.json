@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "484457274730",
+    "project_id": "photobooth-studio-5bea1",
+    "storage_bucket": "photobooth-studio-5bea1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484457274730:android:273df81d3503fe0d925913",
+        "android_client_info": {
+          "package_name": "com.example.photoboothstudio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1xi57mHTlOjq5Ic_mZxORYNhGXU38JLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
