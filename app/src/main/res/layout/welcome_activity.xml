@@ -4,74 +4,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="20dp"
     android:gravity="center_horizontal"
-    android:background="#F9FAFC">
+    android:background="@drawable/bg_photobooth_pattern">
 
-    <!-- Task 2: Logo & Header -->
+    <!-- 1. PHẦN LOGO TO NỔI BẬT NẰM Ở TRÊN -->
+
+    <!-- 2. TIÊU ĐỀ ĐĂNG NHẬP -->
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="315dp"
-        android:layout_height="161dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/logo_photobooth" />
+        android:layout_width="280dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="17dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Photobooth Studio"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:text="Chụp ảnh xinh - Lưu khoảnh khắc"
+        android:textSize="20sp"
         android:textColor="#1E293B"
         android:layout_marginTop="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chụp ảnh xinh - Lưu khoảnh khắc ngay lập tức"
-        android:textSize="14sp"
-        android:textColor="#64748B"
-        android:layout_marginTop="8dp" />
-
+    <!-- Khoảng trống co giãn đẩy nút xuống vị trí cân đối -->
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Task 1 & 2: 3 Nút Chọn vai trò -->
+    <!-- 3. PHẦN CÁC NÚT BẤM (CÓ ICON TÍCH HỢP TRONG NÚT) -->
+
+    <!-- Nút Đăng nhập Thành viên (Chứa ic_star) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnMember"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="Đăng nhập Thành viên (Member)"
-        android:textSize="16sp"
-        app:cornerRadius="12dp"
-        app:backgroundTint="#4F46E5"
-        app:icon="@drawable/ic_star" />
+        android:text="ĐĂNG NHẬP THÀNH VIÊN (MEMBER)"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="39dp"
+        app:backgroundTint="#245A68"
+        app:icon="@drawable/star"
+        app:iconSize="52dp"
+        app:iconTint="#FFFFFF"
+        app:iconGravity="textStart"
+        app:iconPadding="5dp" />
 
+    <!-- Nút Trải nghiệm nhanh Guest (Chứa ic_camera) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGuest"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="12dp"
-        android:text="Trải nghiệm nhanh (Guest)"
-        android:textSize="16sp"
-        android:textColor="#0F172A"
-        app:strokeColor="#CBD5E1"
-        app:cornerRadius="12dp"
-        app:icon="@drawable/ic_camera" />
+        android:text="TRẢI NGHIỆM NHANH (Guest)"
+        android:textSize="15sp"
+        android:textColor="#1E293B"
+        app:strokeColor="#245A68"
+        app:strokeWidth="2dp"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/camera"
+        app:iconSize="42dp"
+        app:iconTint="#245A68"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp" />
 
+    <!-- Dòng chữ Đăng nhập Admin -->
     <TextView
         android:id="@+id/tvAdminLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bạn là Quản trị viên? Đăng nhập Admin"
-        android:textColor="#6366F1"
+        android:textColor="#245A68"
         android:textSize="13sp"
-        android:padding="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp" />
 
 </LinearLayout>

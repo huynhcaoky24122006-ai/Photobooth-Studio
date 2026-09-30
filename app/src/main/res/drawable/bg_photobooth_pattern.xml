@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="800dp"
+    android:viewportWidth="360"
+    android:viewportHeight="800">
+
+    <!-- 1. Màu nền chủ đạo (Màu kem ấm vintage) -->
+    <path
+        android:fillColor="#FAF6F0"
+        android:pathData="M0,0h360v800h-360z" />
+
+    <!-- 2. Khung Polaroid & Máy ảnh góc trên bên trái -->
+    <!-- Khung Polaroid nghiêng -->
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M20,30 L70,20 L80,70 L30,80 Z" />
+    <path
+        android:fillColor="#245A68"
+        android:pathData="M28,33 L62,26 L68,58 L34,65 Z" />
+    <!-- Máy ảnh Pastel -->
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M15,90 h40 a5,5 0 0,1 5,5 v25 a5,5 0 0,1 -5,5 h-40 a5,5 0 0,1 -5,-5 v-25 a5,5 0 0,1 5,-5 Z" />
+    <path
+        android:fillColor="#FAF6F0"
+        android:pathData="M35,102.5 A6.5,6.5 0 1,0 35,115.5 A6.5,6.5 0 1,0 35,102.5 Z" />
+
+    <!-- 3. Dải phim Film Strip & Khung hình góc trên bên phải -->
+    <path
+        android:fillColor="#245A68"
+        android:pathData="M280,30 h60 v100 h-60 Z" />
+    <!-- Ô vuông trên cuộn phim -->
+    <path
+        android:fillColor="#FAF6F0"
+        android:pathData="M288,40 h44 v22 h-44 Z M288,68 h44 v22 h-44 Z M288,96 h44 v22 h-44 Z" />
+
+    <!-- 4. Máy ảnh & Dải phim góc dưới bên trái -->
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M10,680 h45 a5,5 0 0,1 5,5 v30 a5,5 0 0,1 -5,5 h-45 a5,5 0 0,1 -5,-5 v-30 a5,5 0 0,1 5,-5 Z" />
+    <path
+        android:fillColor="#FAF6F0"
+        android:pathData="M32.5,690 A7.5,7.5 0 1,0 32.5,705 A7.5,7.5 0 1,0 32.5,690 Z" />
+    <!-- Dải phim nhỏ góc dưới -->
+    <path
+        android:fillColor="#245A68"
+        android:pathData="M15,735 L70,715 L76,730 L21,750 Z" />
+
+    <!-- 5. Khung Polaroid & Họa tiết trang trí góc dưới bên phải -->
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M280,670 L340,680 L330,740 L270,730 Z" />
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M286,678 L330,685 L323,723 L279,716 Z" />
+
+    <!-- 6. Các ngôi sao lấp lánh (Sparkles) & Confetti rải rác -->
+    <!-- Ngôi sao màu cam coral -->
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M120,40 L123,48 L131,51 L123,54 L120,62 L117,54 L109,51 L117,48 Z" />
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M240,160 L242,165 L247,167 L242,169 L240,174 L238,169 L233,167 L238,165 Z" />
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M50,620 L52,625 L57,627 L52,629 L50,634 L48,629 L43,627 L48,625 Z" />
+
+    <!-- Ngôi sao màu xanh đốm -->
+    <path
+        android:fillColor="#245A68"
+        android:pathData="M230,50 L232,56 L238,58 L232,60 L230,66 L228,60 L222,58 L228,56 Z" />
+    <path
+        android:fillColor="#245A68"
+        android:pathData="M310,610 L312,615 L317,617 L312,619 L310,624 L308,619 L303,617 L308,615 Z" />
+
+    <!-- Hạt Confetti trang trí nhỏ -->
+    <path
+        android:fillColor="#245A68"
+        android:pathData="M160,30 h8 v4 h-8 Z M90,140 h6 v4 h-6 Z M290,200 h8 v3 h-8 Z" />
+    <path
+        android:fillColor="#E07A5F"
+        android:pathData="M200,70 h6 v4 h-6 Z M40,200 h8 v3 h-8 Z M320,640 h6 v4 h-6 Z" />
+</vector>
