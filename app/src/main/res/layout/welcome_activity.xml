@@ -9,12 +9,13 @@
     android:background="#F9FAFC">
 
     <!-- Task 2: Logo & Header -->
+
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="315dp"
+        android:layout_height="161dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_photobooth_logo" />
+        android:src="@drawable/logo_photobooth" />
 
     <TextView
         android:layout_width="wrap_content"
