@@ -3,8 +3,8 @@ package com.example.photoboothstudio.models;
 import java.io.Serializable;
 
 /**
- * Sticker đại diện cho đối tượng Sticker/Hình dán (Level 0)
- * Chứa thông tin cấu hình sticker: ID, tên, link ảnh PNG, cờ VIP và giá Xu
+ * Sticker đại diện cho đối tượng Sticker/Hình dán
+ *  ID, tên, link ảnh PNG, cờ VIP và giá Xu
  */
 public class Sticker implements Serializable {
     private String id;           // ID duy nhất của sticker (vd: "sticker_cat_ears")
