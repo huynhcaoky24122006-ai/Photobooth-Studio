@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">Photobooth Studio</string>
+
+    <!-- Common / Shared -->
+    <string name="cd_back_button">Quay lại</string>
+    <string name="cd_logo">Logo Photobooth Studio</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Mật khẩu</string>
+
+    <!-- Welcome Activity -->
+    <string name="welcome_slogan">Chụp ảnh xinh - Lưu khoảnh khắc</string>
+    <string name="welcome_admin_prompt">Bạn là Quản trị viên? Đăng nhập Admin</string>
+    <string name="welcome_guest_button">TRẢI NGHIỆM NHANH (Guest)</string>
+    <string name="welcome_member_button">ĐĂNG NHẬP THÀNH VIÊN (MEMBER)</string>
+
+    <!-- Member Login -->
+    <string name="member_login_title">ĐĂNG NHẬP THÀNH VIÊN</string>
+    <string name="member_login_subtitle">Chào mừng bạn quay lại với Photobooth Studio</string>
+    <string name="member_login_forgot_password">Quên mật khẩu?</string>
+    <string name="member_login_button">ĐĂNG NHẬP</string>
+    <string name="member_login_register_prompt">Chưa có tài khoản? Đăng ký ngay</string>
+
+    <!-- Member Register -->
+    <string name="register_title">ĐĂNG KÝ TÀI KHOẢN</string>
+    <string name="register_subtitle">Tạo tài khoản Member để trải nghiệm trọn vẹn</string>
+    <string name="hint_full_name">Họ và tên</string>
+    <string name="hint_confirm_password">Nhập lại mật khẩu</string>
+    <string name="register_button">ĐĂNG KÝ</string>
+    <string name="register_login_prompt">Đã có tài khoản? Đăng nhập ngay</string>
+
+    <!-- Admin Login -->
+    <string name="admin_login_title">ĐĂNG NHẬP QUẢN TRỊ VIÊN</string>
+    <string name="admin_login_subtitle">Xác thực tài khoản Admin để quản trị hệ thống</string>
+    <string name="hint_admin_account">Email / Tài khoản Admin</string>
+    <string name="hint_admin_password">Mật khẩu Admin</string>
+    <string name="admin_login_button">ĐĂNG NHẬP ADMIN</string>
 </resources>
