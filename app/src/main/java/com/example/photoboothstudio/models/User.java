@@ -93,8 +93,8 @@ public class User implements Serializable {
         return isVIP;
     }
 
-    public void setVIP(boolean VIP) {
-        isVIP = VIP;
+    public void setVIP(boolean isVIP) {
+        this.isVIP = isVIP;
     }
 
     public List<String> getUnlockedFrameIds() {

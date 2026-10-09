@@ -55,8 +55,8 @@ public class Sticker implements Serializable {
         return isVIP;
     }
 
-    public void setVIP(boolean VIP) {
-        isVIP = VIP;
+    public void setVIP(boolean isVIP) {
+        this.isVIP = isVIP;
     }
 
     public int getPriceInCoins() {
