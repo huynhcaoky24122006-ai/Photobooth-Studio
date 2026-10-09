@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Mẫu màu gốc (Được giữ nguyên) -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cream">#F3EAD5</color>
+    <color name="deep_teal">#2B525E</color>
+    <color name="coral_pink">#E26D5C</color>
+    <color name="muted_sage">#5B8287</color>
+
+    <!-- Mẫu màu bổ sung cho Photobooth Studio -->
+    <!-- Brand Variations (Biến thể màu thương hiệu) -->
+    <color name="deep_teal_dark">#1D3B44</color>
+    <color name="deep_teal_light">#3B6E7E</color>
+    <color name="deep_teal_translucent">#1A2B525E</color>
+    <color name="coral_pink_dark">#C45242</color>
+    <color name="coral_pink_light">#FF9E8D</color>
+    <color name="muted_sage_light">#7C9E9F</color>
+
+    <!-- Card Surfaces (Trắng đặc loại bỏ hoàn toàn góc vuông vệt xám dưới góc bo) -->
+    <color name="card_bg_solid">#FFFFFFFF</color>
+    <color name="card_stroke_subtle">#1A245A68</color>
+
+    <!-- Card Ivory Translucent (Màu vàng ngà ngà nhẹ trong suốt sang trọng) -->
+    <color name="card_bg_ivory_translucent">#E6FFFDF5</color>
+    <color name="card_stroke_ivory">#26245A68</color>
+
+    <!-- VIP System & Rewards (Dành cho Member VIP & Huy hiệu) -->
+    <color name="vip_gold">#FFD700</color>
+    <color name="vip_gold_dark">#C5A000</color>
+    <color name="vip_gold_light">#FFF2A3</color>
+
+    <!-- Neutral & Surfaces (Thanh phân cách, Nền phụ, Overlay) -->
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_medium">#9E9E9E</color>
+    <color name="gray_dark">#424242</color>
+    <color name="divider_color">#E0E0E0</color>
+    <color name="overlay_dark">#80000000</color>
+
+    <!-- Status & Feedback (Thông báo Lỗi, Thành công, Cảnh báo) -->
+    <color name="error_red">#D32F2F</color>
+    <color name="error_bg">#FFF0F0</color>
+    <color name="error_stroke">#FFCDD2</color>
+
+    <color name="success_green">#388E3C</color>
+    <color name="success_bg">#E8F5E9</color>
+
+    <color name="warning_orange">#F57C00</color>
+    <color name="warning_bg">#FFF3E0</color>
+
+    <color name="info_blue">#1976D2</color>
+    <color name="info_bg">#E3F2FD</color>
 </resources>
