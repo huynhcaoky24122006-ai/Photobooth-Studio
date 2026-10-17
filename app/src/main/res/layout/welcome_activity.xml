@@ -11,14 +11,13 @@
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="260dp"
-        android:layout_height="220dp"
+        android:layout_width="208dp"
+        android:layout_height="176dp"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/cd_logo"
         android:scaleType="fitCenter"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
