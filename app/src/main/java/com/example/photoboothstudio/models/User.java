@@ -15,6 +15,7 @@ public class User implements Serializable {
     private String role;          // Vai trò: "GUEST", "MEMBER", "ADMIN"
     private int coins;             // Số lượng Xu hiện có
     private boolean isVIP;                   // Trạng thái tài khoản VIP
+    private boolean isLocked = false;
     private List<String> unlockedFrameIds;   // Danh sách ID các Frame đã mua/mở khóa
     private List<String> unlockedStickerIds; // Danh sách ID các Sticker đã mua/mở khóa
 
@@ -48,6 +49,14 @@ public class User implements Serializable {
         this.unlockedStickerIds = unlockedStickerIds != null ? unlockedStickerIds : new ArrayList<>();
     }
 
+
+    // Full constructor including account lock status.
+    public User(String id, String email, String name, String role,
+                int coins, boolean isVIP, boolean isLocked,
+                List<String> unlockedFrameIds, List<String> unlockedStickerIds) {
+        this(id, email, name, role, coins, isVIP, unlockedFrameIds, unlockedStickerIds);
+        this.isLocked = isLocked;
+    }
 
     public String getId() {
         return id;
@@ -87,6 +96,14 @@ public class User implements Serializable {
 
     public void setCoins(int coins) {
         this.coins = coins;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
 
     public boolean isVIP() {
