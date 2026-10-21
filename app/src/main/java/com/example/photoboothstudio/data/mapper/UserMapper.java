@@ -18,7 +18,7 @@ import java.util.List;
  *   nên User lấy từ entity luôn có danh sách khác null.
  * - Phần tử null trong hai danh sách này không bị mapper âm thầm lọc bỏ; StringListConverter
  *   sẽ ném IllegalArgumentException khi ghi xuống Room.
- * - role (GUEST/MEMBER/ADMIN), coins và isVIP được giữ nguyên, không chuẩn hóa lại.
+ * - role (GUEST/MEMBER/ADMIN), coins, isVIP và isLocked được giữ nguyên, không chuẩn hóa lại.
  * - User.id có thể null còn UserEntity.id bắt buộc khác null, nên toEntity ném
  *   NullPointerException nếu model chưa có ID (ID chính là UID từ Firebase Auth).
  */
@@ -40,6 +40,7 @@ public final class UserMapper {
                 entity.getRole(),
                 entity.getCoins(),
                 entity.isVIP(),
+                entity.isLocked(),
                 new ArrayList<>(entity.getUnlockedFrameIds()),
                 new ArrayList<>(entity.getUnlockedStickerIds())
         );
@@ -62,6 +63,7 @@ public final class UserMapper {
                 model.getRole(),
                 model.getCoins(),
                 model.isVIP(),
+                model.isLocked(),
                 model.getUnlockedFrameIds(),
                 model.getUnlockedStickerIds()
         );

@@ -1,6 +1,7 @@
 package com.example.photoboothstudio.data.local.entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -32,6 +33,8 @@ public class UserEntity {
     private String role;
     private int coins;
     private boolean isVIP;
+    @ColumnInfo(defaultValue = "0")
+    private boolean isLocked = false;
 
     @NonNull
     private List<String> unlockedFrameIds;
@@ -39,7 +42,8 @@ public class UserEntity {
     @NonNull
     private List<String> unlockedStickerIds;
 
-    // Room sử dụng constructor đầy đủ để khôi phục bản ghi từ database.
+    // Keep the original constructor for existing callers.
+    @Ignore
     public UserEntity(@NonNull String id, String email, String name, String role,
                       int coins, boolean isVIP, List<String> unlockedFrameIds,
                       List<String> unlockedStickerIds) {
@@ -51,6 +55,14 @@ public class UserEntity {
         this.isVIP = isVIP;
         setUnlockedFrameIds(unlockedFrameIds);
         setUnlockedStickerIds(unlockedStickerIds);
+    }
+
+    // Full constructor including account lock status.
+    public UserEntity(@NonNull String id, String email, String name, String role,
+                int coins, boolean isVIP, boolean isLocked,
+                List<String> unlockedFrameIds, List<String> unlockedStickerIds) {
+        this(id, email, name, role, coins, isVIP, unlockedFrameIds, unlockedStickerIds);
+        this.isLocked = isLocked;
     }
 
     // Constructor tiện dụng cho Member mới; Room bỏ qua constructor này.
@@ -98,6 +110,14 @@ public class UserEntity {
 
     public void setCoins(int coins) {
         this.coins = coins;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
 
     public boolean isVIP() {

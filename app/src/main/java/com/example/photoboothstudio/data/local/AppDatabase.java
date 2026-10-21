@@ -2,6 +2,9 @@ package com.example.photoboothstudio.data.local;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -29,7 +32,7 @@ import com.example.photoboothstudio.data.local.entities.UserEntity;
                 FrameEntity.class,
                 StickerEntity.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 @TypeConverters({StringListConverter.class})
@@ -37,6 +40,13 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "photobooth_studio_db";
     private static volatile AppDatabase instance;
+
+    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE users ADD COLUMN isLocked INTEGER NOT NULL DEFAULT 0");
+        }
+    };
 
     // Các phương thức trừu tượng để lấy DAO
     public abstract UserDao userDao();
@@ -54,6 +64,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     DATABASE_NAME
                             )
+                            .addMigrations(MIGRATION_1_2)
                             .fallbackToDestructiveMigration()
                             .build();
                 }

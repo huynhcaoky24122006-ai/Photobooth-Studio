@@ -1,6 +1,7 @@
 package com.example.photoboothstudio.data.mapper;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -16,6 +17,36 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserMapperTest {
+
+    @Test
+    public void existingConstructors_defaultToUnlocked() {
+        assertFalse(new User().isLocked());
+        assertFalse(new User("u", "email", "Name").isLocked());
+        assertFalse(new User("u", "email", "Name", "MEMBER", 0, false, null, null).isLocked());
+        assertFalse(new UserEntity("u", "email", "Name").isLocked());
+        assertFalse(new UserEntity("u", "email", "Name", "MEMBER", 0, false, null, null).isLocked());
+    }
+
+    @Test
+    public void lockedUser_roundTripPreservesLockAndCanUnlock() {
+        User model = new User("u", "email", "Name", "MEMBER", 0, false, true, null, null);
+        UserEntity entity = UserMapper.toEntity(model);
+        assertTrue(entity.isLocked());
+        assertTrue(UserMapper.toModel(entity).isLocked());
+        model.setLocked(false);
+        assertFalse(UserMapper.toEntity(model).isLocked());
+    }
+
+    @Test
+    public void lockedEntity_roundTripPreservesLockAndCanUnlock() {
+        UserEntity entity = new UserEntity("u", "email", "Name", "MEMBER", 0, false, true, null, null);
+        User model = UserMapper.toModel(entity);
+        assertTrue(model.isLocked());
+        assertTrue(UserMapper.toEntity(model).isLocked());
+        entity.setLocked(false);
+        assertFalse(UserMapper.toModel(entity).isLocked());
+    }
+
 
     @Test
     public void toModel_validEntity_returnsValidModelWithCopiedLists() {
