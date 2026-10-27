@@ -259,7 +259,8 @@
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
         android:elevation="8dp"
@@ -269,7 +270,7 @@
         <LinearLayout
             android:id="@+id/btnNavProfile"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -298,7 +299,7 @@
         <LinearLayout
             android:id="@+id/btnNavCamera"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -326,7 +327,7 @@
         <LinearLayout
             android:id="@+id/btnNavGallery"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -354,7 +355,7 @@
         <LinearLayout
             android:id="@+id/btnNavShop"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"

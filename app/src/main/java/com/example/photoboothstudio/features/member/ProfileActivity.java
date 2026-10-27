@@ -47,9 +47,15 @@ public class ProfileActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
 
+        // Xử lý Edge-to-Edge: Kéo dài chiều cao + nền trắng của BottomNavigation xuống tận đáy màn hình
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+
+            LinearLayout bottomNav = findViewById(R.id.bottomNavigation);
+            if (bottomNav != null) {
+                bottomNav.setPadding(0, 0, 0, systemBars.bottom);
+            }
             return insets;
         });
 

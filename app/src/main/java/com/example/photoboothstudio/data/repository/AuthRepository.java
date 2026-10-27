@@ -29,14 +29,9 @@ import java.util.concurrent.Executors;
  * - FirestoreHelper: hồ sơ User (role, isLocked, Xu...) là nguồn dữ liệu chuẩn.
  * - Room (UserDao) + SharedPrefManager: bản lưu cục bộ để mở app nhanh và dùng khi mất mạng.
  *
- * Quy ước:
- * - Mọi callback trả về trên main thread, Activity cập nhật UI trực tiếp được.
- * - Room chỉ truy cập trên một luồng nền riêng (không chạy trên main thread).
- * - Thông báo lỗi trong onError là tiếng Việt, hiển thị thẳng cho người dùng.
- * - Đăng nhập chỉ được coi là thành công khi đã qua kiểm tra role và isLocked;
- *   nếu không qua, Firebase Auth bị đăng xuất lại và KHÔNG lưu session.
- * - Tài khoản Admin KHÔNG đăng ký trong app, tạo thủ công trên Firebase Console
- *   (users/{uid} với role = "ADMIN").
+ * Tối ưu hóa hiệu năng:
+ * - Room Database được khởi tạo lười (lazy-loaded) hoàn toàn trên background thread.
+ * - Sử dụng ThreadPoolExecutor (4 luồng) để xử lý bất đồng bộ, tránh nghẽn luồng UI (ANR).
  */
 public class AuthRepository {
 
@@ -59,20 +54,21 @@ public class AuthRepository {
 
     private static volatile AuthRepository instance;
 
+    private final Context appContext;
     private final FirebaseAuthHelper authHelper;
     private final FirestoreHelper firestoreHelper;
-    private final UserDao userDao;
     private final SharedPrefManager prefs;
     private final ExecutorService executor;
     private final Handler mainHandler;
 
+    private volatile UserDao userDao;
+
     private AuthRepository(Context context) {
-        Context appContext = context.getApplicationContext();
+        this.appContext = context.getApplicationContext();
         this.authHelper = FirebaseAuthHelper.getInstance();
         this.firestoreHelper = FirestoreHelper.getInstance();
-        this.userDao = AppDatabase.getInstance(appContext).userDao();
         this.prefs = SharedPrefManager.getInstance(appContext);
-        this.executor = Executors.newSingleThreadExecutor();
+        this.executor = Executors.newFixedThreadPool(4);
         this.mainHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -87,13 +83,22 @@ public class AuthRepository {
         return instance;
     }
 
+    /** Khởi tạo lười Room DAO trên luồng nền để tránh làm chậm Main Thread khi mở ứng dụng. */
+    private UserDao getUserDao() {
+        if (userDao == null) {
+            synchronized (this) {
+                if (userDao == null) {
+                    userDao = AppDatabase.getInstance(appContext).userDao();
+                }
+            }
+        }
+        return userDao;
+    }
+
     // ==================== ĐĂNG KÝ ====================
 
     /**
-     * Đăng ký Member mới: tạo tài khoản Firebase Auth, ghi hồ sơ users/{uid} lên Firestore
-     * (role MEMBER, 0 Xu, không VIP, không khóa), rồi lưu Room + session.
-     * Thành công nghĩa là người dùng đã ở trạng thái đăng nhập.
-     * Nếu ghi hồ sơ thất bại, tài khoản Auth đã được tạo; lần đăng nhập sau sẽ tự tạo lại hồ sơ.
+     * Đăng ký Member mới: tạo tài khoản Firebase Auth, ghi hồ sơ users/{uid} lên Firestore.
      */
     public void registerMember(String email, String password, String name,
                                @NonNull RepoCallback<User> callback) {
@@ -237,12 +242,6 @@ public class AuthRepository {
 
     /**
      * Khôi phục phiên khi mở app (dùng ở WelcomeActivity).
-     * - onSuccess(null): chưa đăng nhập (hoặc phiên đã hết), ở lại màn Welcome.
-     * - onSuccess(user): đã đăng nhập hợp lệ, user là bản mới nhất; dựa vào user.getRole()
-     *   để chuyển sang màn Member hoặc Admin.
-     * - onError: tài khoản bị khóa/không còn tồn tại, hoặc không xác minh được (mất mạng và
-     *   chưa có bản lưu cục bộ). Phiên cục bộ đã bị xóa nếu là khóa/không tồn tại.
-     * Khi mất mạng nhưng đã có bản lưu trong Room (và chưa khóa) thì dùng bản lưu đó.
      */
     public void restoreSession(@NonNull RepoCallback<User> callback) {
         String uid = authHelper.getCurrentUid();
@@ -261,9 +260,7 @@ public class AuthRepository {
     }
 
     /**
-     * Tải lại hồ sơ mới nhất từ Firestore và cập nhật Room + session
-     * (dùng sau khi mua Frame, điểm danh, hoặc khi mở Profile để thấy Xu/VIP mới).
-     * Nếu tài khoản vừa bị khóa, tự đăng xuất và trả onError.
+     * Tải lại hồ sơ mới nhất từ Firestore và cập nhật Room + session.
      */
     public void refreshCurrentUser(@NonNull RepoCallback<User> callback) {
         String uid = authHelper.getCurrentUid();
@@ -310,7 +307,7 @@ public class AuthRepository {
         executor.execute(() -> {
             User cached = null;
             try {
-                cached = UserMapper.toModel(userDao.getUserById(uid));
+                cached = UserMapper.toModel(getUserDao().getUserById(uid));
             } catch (Exception e) {
                 Log.w(TAG, "Không đọc được User từ Room", e);
             }
@@ -335,7 +332,7 @@ public class AuthRepository {
         executor.execute(() -> {
             User cached = null;
             try {
-                cached = UserMapper.toModel(userDao.getUserById(uid));
+                cached = UserMapper.toModel(getUserDao().getUserById(uid));
             } catch (Exception e) {
                 Log.w(TAG, "Không đọc được User từ Room", e);
             }
@@ -346,7 +343,6 @@ public class AuthRepository {
 
     /**
      * Ghi một User vào Room (không đụng Firestore, không đổi session).
-     * Dùng khi Repository/CoinManager đã cập nhật Firestore và muốn đồng bộ bản cục bộ.
      */
     public void saveUserLocally(@NonNull User user) {
         if (user.getId() == null) {
@@ -354,7 +350,7 @@ public class AuthRepository {
         }
         executor.execute(() -> {
             try {
-                userDao.insertUser(UserMapper.toEntity(user));
+                getUserDao().insertUser(UserMapper.toEntity(user));
             } catch (Exception e) {
                 Log.w(TAG, "Không ghi được User vào Room", e);
             }
@@ -375,7 +371,7 @@ public class AuthRepository {
         if (uid != null) {
             executor.execute(() -> {
                 try {
-                    userDao.deleteUserById(uid);
+                    getUserDao().deleteUserById(uid);
                 } catch (Exception e) {
                     Log.w(TAG, "Không xóa được User khỏi Room", e);
                 }
@@ -389,9 +385,8 @@ public class AuthRepository {
     private void persistSession(@NonNull User user, @NonNull RepoCallback<User> callback) {
         executor.execute(() -> {
             try {
-                userDao.insertUser(UserMapper.toEntity(user));
+                getUserDao().insertUser(UserMapper.toEntity(user));
             } catch (Exception e) {
-                // Lỗi cache cục bộ không được làm hỏng đăng nhập.
                 Log.w(TAG, "Không ghi được User vào Room", e);
             }
             prefs.saveUserSession(user.getId(), user.getEmail(), user.getName(), user.getRole());
@@ -399,12 +394,7 @@ public class AuthRepository {
         });
     }
 
-    /**
-     * Chuẩn hóa User đọc từ Firestore:
-     * - id luôn lấy theo UID (document id), phòng khi field id trong document bị nhập sai.
-     * - role thiếu thì coi là MEMBER; email thiếu thì lấy từ tài khoản Auth.
-     * - hai danh sách không bao giờ null.
-     */
+    /** Chuẩn hóa User đọc từ Firestore. */
     private void normalize(@NonNull User user, @NonNull String uid, @Nullable String authEmail) {
         user.setId(uid);
         if (isBlank(user.getRole())) {
