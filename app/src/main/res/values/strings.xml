@@ -6,6 +6,9 @@
     <string name="cd_logo">Logo Photobooth Studio</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Mật khẩu</string>
+    <string name="cd_star_decor">Trang trí ngôi sao</string>
+    <string name="cd_cute_left">Trang trí trái</string>
+    <string name="cd_cute_right">Trang trí phải</string>
 
     <!-- Welcome Activity -->
     <string name="welcome_slogan">Chụp ảnh xinh - Lưu khoảnh khắc</string>
