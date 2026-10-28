@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.photoboothstudio.R;
 import com.example.photoboothstudio.data.repository.AuthRepository;
+import com.example.photoboothstudio.dialogs.CustomAlertDialog;
+import com.example.photoboothstudio.dialogs.LoadingDialog;
 import com.example.photoboothstudio.features.member.ProfileActivity;
 import com.example.photoboothstudio.models.User;
 import com.google.android.material.button.MaterialButton;
@@ -76,18 +78,18 @@ public class MemberLoginActivity extends AppCompatActivity {
         String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập đầy đủ Email và Mật khẩu!", Toast.LENGTH_SHORT).show();
+            CustomAlertDialog.showWarning(this, "Thiếu thông tin", "Vui lòng nhập đầy đủ Email và Mật khẩu!");
             return;
         }
 
         btnLogin.setEnabled(false);
-        Toast.makeText(this, "Đang đăng nhập...", Toast.LENGTH_SHORT).show();
+        LoadingDialog.show(this, "Đang đăng nhập...");
 
         authRepository.loginMember(email, password, new AuthRepository.RepoCallback<User>() {
             @Override
             public void onSuccess(User user) {
+                LoadingDialog.dismiss();
                 btnLogin.setEnabled(true);
-                Toast.makeText(MemberLoginActivity.this, "Đăng nhập thành công! Chào " + user.getName(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(MemberLoginActivity.this, ProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -97,8 +99,9 @@ public class MemberLoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(@NonNull String message) {
+                LoadingDialog.dismiss();
                 btnLogin.setEnabled(true);
-                Toast.makeText(MemberLoginActivity.this, message, Toast.LENGTH_LONG).show();
+                CustomAlertDialog.showError(MemberLoginActivity.this, "Đăng nhập thất bại", message);
             }
         });
     }
@@ -115,19 +118,23 @@ public class MemberLoginActivity extends AppCompatActivity {
         builder.setPositiveButton("Gửi yêu cầu", (dialog, which) -> {
             String recoveryEmail = input.getText().toString().trim();
             if (recoveryEmail.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập email hợp lệ!", Toast.LENGTH_SHORT).show();
+                CustomAlertDialog.showWarning(this, "Thiếu thông tin", "Vui lòng nhập email hợp lệ!");
                 return;
             }
 
+            LoadingDialog.show(this, "Đang gửi yêu cầu...");
             authRepository.sendPasswordReset(recoveryEmail, new AuthRepository.RepoCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
-                    Toast.makeText(MemberLoginActivity.this, "Đã gửi email khôi phục mật khẩu tới " + recoveryEmail, Toast.LENGTH_LONG).show();
+                    LoadingDialog.dismiss();
+                    CustomAlertDialog.showSuccess(MemberLoginActivity.this, "Thành công",
+                            "Đã gửi email khôi phục mật khẩu tới " + recoveryEmail);
                 }
 
                 @Override
                 public void onError(@NonNull String message) {
-                    Toast.makeText(MemberLoginActivity.this, message, Toast.LENGTH_LONG).show();
+                    LoadingDialog.dismiss();
+                    CustomAlertDialog.showError(MemberLoginActivity.this, "Gửi thất bại", message);
                 }
             });
         });

@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.photoboothstudio.R;
 import com.example.photoboothstudio.data.local.SharedPrefManager;
 import com.example.photoboothstudio.data.repository.AuthRepository;
+import com.example.photoboothstudio.dialogs.CustomAlertDialog;
 import com.example.photoboothstudio.features.auth.WelcomeActivity;
 import com.example.photoboothstudio.features.camera.CameraActivity;
 import com.example.photoboothstudio.features.rewards.DailyCheckinActivity;
@@ -182,12 +182,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void showLogoutConfirmationDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Đăng Xuất")
-                .setMessage("Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?")
-                .setPositiveButton("Đăng Xuất", (dialog, which) -> handleLogout())
-                .setNegativeButton("Hủy", null)
-                .show();
+        CustomAlertDialog.showConfirm(this, "Đăng xuất", "Bạn có chắc muốn đăng xuất không?",
+                "Đăng xuất", () -> handleLogout());
     }
 
     private void handleLogout() {

@@ -2,7 +2,6 @@ package com.example.photoboothstudio.features.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -13,6 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.photoboothstudio.R;
 import com.example.photoboothstudio.data.repository.AuthRepository;
+import com.example.photoboothstudio.dialogs.CustomAlertDialog;
+import com.example.photoboothstudio.dialogs.LoadingDialog;
 import com.example.photoboothstudio.features.admin.DashboardActivity;
 import com.example.photoboothstudio.models.User;
 import com.google.android.material.button.MaterialButton;
@@ -65,18 +66,18 @@ public class AdminLoginActivity extends AppCompatActivity {
         String password = etAdminPassword.getText() != null ? etAdminPassword.getText().toString().trim() : "";
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập tài khoản và mật khẩu Admin!", Toast.LENGTH_SHORT).show();
+            CustomAlertDialog.showWarning(this, "Thiếu thông tin", "Vui lòng nhập tài khoản và mật khẩu Admin!");
             return;
         }
 
         btnAdminLogin.setEnabled(false);
-        Toast.makeText(this, "Đang xác thực tài khoản Admin...", Toast.LENGTH_SHORT).show();
+        LoadingDialog.show(this, "Đang xác thực Admin...");
 
         authRepository.loginAdmin(email, password, new AuthRepository.RepoCallback<User>() {
             @Override
             public void onSuccess(User user) {
+                LoadingDialog.dismiss();
                 btnAdminLogin.setEnabled(true);
-                Toast.makeText(AdminLoginActivity.this, "Đăng nhập Admin thành công!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(AdminLoginActivity.this, DashboardActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -86,8 +87,9 @@ public class AdminLoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(@NonNull String message) {
+                LoadingDialog.dismiss();
                 btnAdminLogin.setEnabled(true);
-                Toast.makeText(AdminLoginActivity.this, message, Toast.LENGTH_LONG).show();
+                CustomAlertDialog.showError(AdminLoginActivity.this, "Đăng nhập thất bại", message);
             }
         });
     }
