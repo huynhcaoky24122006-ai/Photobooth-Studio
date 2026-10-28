@@ -18,29 +18,30 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * EmailSender gọi Cloud Function sendOtpEmail để gửi mã OTP 6 số qua Gmail.
+ * CloudFunctionHelper gọi các Firebase Cloud Functions API trên server.
  */
-public class EmailSender {
+public class CloudFunctionHelper {
 
-    public interface EmailCallback {
+    public interface ApiCallback {
         void onSuccess();
 
         void onError(@NonNull String error);
     }
 
-    private static final String TAG = "EmailSender";
-    private static final String CLOUD_FUNCTION_URL = "https://us-central1-photobooth-studio-5bea1.cloudfunctions.net/sendOtpEmail";
+    private static final String TAG = "CloudFunctionHelper";
+    private static final String SEND_OTP_URL = "https://us-central1-photobooth-studio-5bea1.cloudfunctions.net/sendOtpEmail";
 
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    private EmailSender() {
+    private CloudFunctionHelper() {
+        // Utility class
     }
 
-    public static void sendOtpEmail(String recipientEmail, @NonNull EmailCallback callback) {
+    public static void sendOtpEmail(String recipientEmail, @NonNull ApiCallback callback) {
         executor.execute(() -> {
             try {
-                URL url = new URL(CLOUD_FUNCTION_URL);
+                URL url = new URL(SEND_OTP_URL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json");
@@ -76,7 +77,7 @@ public class EmailSender {
                 conn.disconnect();
             } catch (Exception e) {
                 Log.e(TAG, "Lỗi kết nối Cloud Function", e);
-                mainHandler.post(() -> callback.onError("Không thể kết nối máy chủ gửi thư. Vui lòng kiểm tra lại mạng!"));
+                mainHandler.post(() -> callback.onError("Không thể kết nối máy chủ. Vui lòng kiểm tra lại mạng!"));
             }
         });
     }

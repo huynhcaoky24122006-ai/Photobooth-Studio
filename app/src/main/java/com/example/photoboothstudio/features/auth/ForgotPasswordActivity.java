@@ -2,6 +2,7 @@ package com.example.photoboothstudio.features.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,19 +15,22 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.photoboothstudio.R;
 import com.example.photoboothstudio.dialogs.CustomAlertDialog;
 import com.example.photoboothstudio.dialogs.LoadingDialog;
-import com.example.photoboothstudio.utils.EmailSender;
+import com.example.photoboothstudio.utils.CloudFunctionHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 /**
- * ForgotPasswordActivity quản lý gửi yêu cầu tạo mã OTP qua Cloud Function
- * và chuyển sang ResetPasswordActivity để đổi mật khẩu.
+ * ForgotPasswordActivity quản lý gửi yêu cầu tạo mã OTP qua Cloud Function,
+ * tích hợp đồng hồ đếm ngược chống spam nút gửi, và chuyển sang ResetPasswordActivity.
  */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private MaterialButton btnBack, btnSendCode, btnVerifyCode;
     private TextInputEditText etEmail, etVerificationCode;
     private TextView tvLogin;
+
+    private CountDownTimer countDownTimer;
+    private boolean isCountingDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         initViews();
         setupListeners();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 
     private void initViews() {
@@ -65,6 +77,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void handleSendOtp() {
+        if (isCountingDown) return;
+
         String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
         if (email.isEmpty()) {
             CustomAlertDialog.showWarning(this, "Thiếu Email", "Vui lòng nhập Email đã đăng ký để nhận mã OTP!");
@@ -73,12 +87,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         LoadingDialog.show(this, "Đang gửi mã OTP qua Email...");
 
-        EmailSender.sendOtpEmail(email, new EmailSender.EmailCallback() {
+        CloudFunctionHelper.sendOtpEmail(email, new CloudFunctionHelper.ApiCallback() {
             @Override
             public void onSuccess() {
                 LoadingDialog.dismiss();
                 CustomAlertDialog.showSuccess(ForgotPasswordActivity.this, "Đã gửi mã OTP",
                         "Mã xác nhận 6 số đã được gửi tới email " + email + ". Vui lòng kiểm tra hộp thư!");
+                startCountdown();
             }
 
             @Override
@@ -87,6 +102,26 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 CustomAlertDialog.showError(ForgotPasswordActivity.this, "Gửi mã thất bại", error);
             }
         });
+    }
+
+    private void startCountdown() {
+        isCountingDown = true;
+        btnSendCode.setEnabled(false);
+
+        countDownTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                btnSendCode.setText("Gửi lại (" + seconds + "s)");
+            }
+
+            @Override
+            public void onFinish() {
+                isCountingDown = false;
+                btnSendCode.setEnabled(true);
+                btnSendCode.setText(R.string.forgot_password_send_code);
+            }
+        }.start();
     }
 
     private void handleVerifyOtp() {
