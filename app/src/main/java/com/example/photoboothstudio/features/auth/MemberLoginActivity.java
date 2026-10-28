@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -68,7 +67,10 @@ public class MemberLoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        tvForgotPassword.setOnClickListener(v -> showForgotPasswordDialog());
+        tvForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(MemberLoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
 
         btnLogin.setOnClickListener(v -> handleLogin());
     }
@@ -104,42 +106,5 @@ public class MemberLoginActivity extends AppCompatActivity {
                 CustomAlertDialog.showError(MemberLoginActivity.this, "Đăng nhập thất bại", message);
             }
         });
-    }
-
-    private void showForgotPasswordDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Khôi phục mật khẩu");
-
-        final android.widget.EditText input = new android.widget.EditText(this);
-        input.setHint("Nhập email đăng ký của bạn");
-        input.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        builder.setView(input);
-
-        builder.setPositiveButton("Gửi yêu cầu", (dialog, which) -> {
-            String recoveryEmail = input.getText().toString().trim();
-            if (recoveryEmail.isEmpty()) {
-                CustomAlertDialog.showWarning(this, "Thiếu thông tin", "Vui lòng nhập email hợp lệ!");
-                return;
-            }
-
-            LoadingDialog.show(this, "Đang gửi yêu cầu...");
-            authRepository.sendPasswordReset(recoveryEmail, new AuthRepository.RepoCallback<Void>() {
-                @Override
-                public void onSuccess(Void result) {
-                    LoadingDialog.dismiss();
-                    CustomAlertDialog.showSuccess(MemberLoginActivity.this, "Thành công",
-                            "Đã gửi email khôi phục mật khẩu tới " + recoveryEmail);
-                }
-
-                @Override
-                public void onError(@NonNull String message) {
-                    LoadingDialog.dismiss();
-                    CustomAlertDialog.showError(MemberLoginActivity.this, "Gửi thất bại", message);
-                }
-            });
-        });
-        builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
-
-        builder.show();
     }
 }
