@@ -28,16 +28,19 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingStart="20dp"
-                android:paddingTop="38dp"
+                android:paddingTop="36dp"
                 android:paddingEnd="20dp"
-                android:paddingBottom="28dp">
+                android:paddingBottom="26dp">
 
-                <!-- Avatar -->
+                <!-- Avatar with Circular Background Frame -->
                 <ImageView
                     android:id="@+id/imgAvatar"
                     android:layout_width="84dp"
                     android:layout_height="84dp"
+                    android:background="@drawable/bg_avatar_circle"
                     android:contentDescription="Avatar"
+                    android:elevation="3dp"
+                    android:padding="12dp"
                     android:src="@drawable/ic_avatar_person" />
 
                 <!-- Account Name -->
@@ -85,34 +88,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp">
+                android:paddingStart="20dp"
+                android:paddingTop="14dp"
+                android:paddingEnd="20dp">
 
                 <!-- Coins Balance Card -->
                 <LinearLayout
                     android:id="@+id/cardCoins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="14dp"
                     android:background="@drawable/bg_card_coins"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingTop="22dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="22dp">
+                    android:padding="18dp">
 
                     <ImageView
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
                         android:contentDescription="Coins Icon"
                         android:src="@drawable/img_coin" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="16dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -120,19 +120,19 @@
                             android:layout_height="wrap_content"
                             android:text="Số Xu Hiện Có:"
                             android:textColor="#000000"
-                            android:textSize="22sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvCoinBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif-light"
                             android:text="99999999"
                             android:textColor="#59442C"
-                            android:textSize="36sp" />
+                            android:textSize="32sp" />
 
                     </LinearLayout>
 
@@ -143,35 +143,32 @@
                     android:id="@+id/cardCheckin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_card_checkin"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingTop="22dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="22dp">
+                    android:padding="18dp">
 
                     <ImageView
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
                         android:contentDescription="Calendar Icon"
                         android:src="@drawable/img_calendar" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Điểm Danh Nhận Xu"
                             android:textColor="#000000"
-                            android:textSize="21sp"
+                            android:textSize="19sp"
                             android:textStyle="bold" />
 
                         <!-- Claim Button -->
@@ -179,22 +176,22 @@
                             android:id="@+id/btnDailyCheckin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
+                            android:layout_marginStart="8dp"
                             android:background="@drawable/bg_btn_checkin"
                             android:clickable="true"
                             android:elevation="2dp"
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:paddingStart="18dp"
-                            android:paddingTop="10dp"
-                            android:paddingEnd="18dp"
-                            android:paddingBottom="10dp">
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_marginEnd="8dp"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="6dp"
                                 android:contentDescription="Coin"
                                 android:src="@drawable/img_coin" />
 
@@ -203,7 +200,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Nhận Xu Tại Đây"
                                 android:textColor="#523A1B"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
