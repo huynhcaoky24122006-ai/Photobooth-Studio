@@ -50,4 +50,11 @@
 
     <color name="info_blue">#1976D2</color>
     <color name="info_bg">#E3F2FD</color>
+
+    <!-- Dialog Colors -->
+    <color name="dialog_surface">#FFFDF5</color>
+    <color name="dialog_warning_icon">#E65100</color>
+    <color name="purple_primary">#583C8E</color>
+    <color name="avatar_bg">#F2EDFC</color>
+    <color name="text_black">#111111</color>
 </resources>

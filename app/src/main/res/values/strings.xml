@@ -6,6 +6,9 @@
     <string name="cd_logo">Logo Photobooth Studio</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Mật khẩu</string>
+    <string name="cd_star_decor">Trang trí ngôi sao</string>
+    <string name="cd_cute_left">Trang trí trái</string>
+    <string name="cd_cute_right">Trang trí phải</string>
 
     <!-- Welcome Activity -->
     <string name="welcome_slogan">Chụp ảnh xinh - Lưu khoảnh khắc</string>
@@ -34,4 +37,18 @@
     <string name="hint_admin_account">Email / Tài khoản Admin</string>
     <string name="hint_admin_password">Mật khẩu Admin</string>
     <string name="admin_login_button">ĐĂNG NHẬP ADMIN</string>
+
+    <!-- Forgot Password -->
+    <string name="forgot_password_title">QUÊN MẬT KHẨU</string>
+    <string name="forgot_password_subtitle">Nhập Email đăng ký để nhận mã xác nhận khôi phục</string>
+    <string name="hint_verification_code">Mã xác nhận (OTP)</string>
+    <string name="forgot_password_send_code">Gửi mã qua Email</string>
+    <string name="forgot_password_verify_button">XÁC NHẬN MÃ</string>
+
+    <!-- Reset Password -->
+    <string name="reset_password_title">ĐẶT LẠI MẬT KHẨU</string>
+    <string name="reset_password_subtitle">Tạo mật khẩu mới cho tài khoản của bạn</string>
+    <string name="hint_new_password">Mật khẩu mới</string>
+    <string name="hint_confirm_new_password">Nhập lại mật khẩu mới</string>
+    <string name="reset_password_button">THAY ĐỔI MẬT KHẨU</string>
 </resources>

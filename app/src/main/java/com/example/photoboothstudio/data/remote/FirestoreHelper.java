@@ -54,6 +54,7 @@ public class FirestoreHelper {
     public static final String COL_STICKERS = "stickers";
     public static final String COL_PHOTOS = "photos";
     public static final String COL_REWARD_CLAIMS = "reward_claims";
+    public static final String COL_OTP_CODES = "otp_codes";
 
     public static final String FIELD_ROLE = "role";
     public static final String FIELD_COINS = "coins";
@@ -426,6 +427,65 @@ public class FirestoreHelper {
         }
         db.collection(COL_PHOTOS).document(photoId).delete()
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(toMessage(e)));
+    }
+
+    // ==================== OTP CODES ====================
+
+    /**
+     * Lưu mã OTP 6 số lên Firestore kèm thời gian hết hạn (5 phút).
+     */
+    public void saveOtpCode(String email, String code, @NonNull FirestoreCallback<Void> callback) {
+        if (isEmpty(email) || isEmpty(code)) {
+            callback.onError("Thiếu Email hoặc mã OTP.");
+            return;
+        }
+        long now = System.currentTimeMillis();
+        long expiresAt = now + (5 * 60 * 1000); // Hết hạn sau 5 phút
+
+        java.util.Map<String, Object> data = new java.util.HashMap<>();
+        data.put("email", email.trim().toLowerCase());
+        data.put("code", code.trim());
+        data.put("createdAt", now);
+        data.put("expiresAt", expiresAt);
+
+        db.collection(COL_OTP_CODES).document(email.trim().toLowerCase()).set(data)
+                .addOnSuccessListener(unused -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(toMessage(e)));
+    }
+
+    /**
+     * Xác thực mã OTP 6 số người dùng nhập so với mã trên Firestore.
+     */
+    public void verifyOtpCode(String email, String inputCode, @NonNull FirestoreCallback<Boolean> callback) {
+        if (isEmpty(email) || isEmpty(inputCode)) {
+            callback.onError("Vui lòng nhập đầy đủ Email và mã OTP.");
+            return;
+        }
+        String docId = email.trim().toLowerCase();
+        db.collection(COL_OTP_CODES).document(docId).get()
+                .addOnSuccessListener(snapshot -> {
+                    if (!snapshot.exists()) {
+                        callback.onError("Chưa có mã OTP được tạo cho Email này. Vui lòng bấm 'Gửi mã qua Email'!");
+                        return;
+                    }
+
+                    Long expiresAt = snapshot.getLong("expiresAt");
+                    String savedCode = snapshot.getString("code");
+
+                    if (expiresAt == null || System.currentTimeMillis() > expiresAt) {
+                        callback.onError("Mã OTP đã hết hạn (quá 5 phút). Vui lòng bấm gửi lại mã mới!");
+                        return;
+                    }
+
+                    if (savedCode != null && savedCode.equals(inputCode.trim())) {
+                        // Xóa mã sau khi xác thực thành công
+                        db.collection(COL_OTP_CODES).document(docId).delete();
+                        callback.onSuccess(true);
+                    } else {
+                        callback.onError("Mã OTP không chính xác. Vui lòng kiểm tra lại!");
+                    }
+                })
                 .addOnFailureListener(e -> callback.onError(toMessage(e)));
     }
 
