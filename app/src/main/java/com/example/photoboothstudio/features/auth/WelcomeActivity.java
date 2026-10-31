@@ -15,6 +15,7 @@ import com.example.photoboothstudio.R;
 import com.example.photoboothstudio.data.local.SharedPrefManager;
 import com.example.photoboothstudio.data.repository.AuthRepository;
 import com.example.photoboothstudio.features.admin.DashboardActivity;
+import com.example.photoboothstudio.features.camera.CameraActivity;
 import com.example.photoboothstudio.features.member.ProfileActivity;
 import com.example.photoboothstudio.models.User;
 import com.google.android.material.button.MaterialButton;
@@ -68,7 +69,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btnGuest.setOnClickListener(v -> {
             // Đăng nhập nhanh dưới dạng Khách
             SharedPrefManager.getInstance(this).saveUserSession("GUEST_TEMP", "", "Khách Hàng", "GUEST");
-            Intent intent = new Intent(WelcomeActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, CameraActivity.class);
             startActivity(intent);
             finish();
         });
@@ -97,6 +98,8 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent;
         if ("ADMIN".equalsIgnoreCase(user.getRole())) {
             intent = new Intent(WelcomeActivity.this, DashboardActivity.class);
+        } else if ("GUEST".equalsIgnoreCase(user.getRole())) {
+            intent = new Intent(WelcomeActivity.this, CameraActivity.class);
         } else {
             intent = new Intent(WelcomeActivity.this, ProfileActivity.class);
         }
